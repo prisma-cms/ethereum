@@ -1,6 +1,6 @@
 {
-  "name": "@prisma-cms/component-boilerplate",
-  "version": "1.0.6",
+  "name": "@prisma-cms/ethereum",
+  "version": "1.1.0",
   "private": false,
   "main": "lib/App.js",
   "scripts": {
@@ -12,12 +12,15 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@prisma-cms/editor": "latest",
+    "ace-mode-solidity": "^0.1.1",
     "react": "^16.6.0",
+    "react-ace": "^6.2.0",
     "react-dom": "^16.6.0"
   },
   "devDependencies": {
     "@prisma-cms/front": "latest",
-    "node-less-chokidar": "latest",
+    "node-less-chokidar": "^0.3.1",
     "nwb": "^0.23.0",
     "react-scripts": "2.0.5"
   },
@@ -30,23 +33,25 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "description": "Tests module for @prisma-cms",
+  "description": "Ethereum client for @prisma-cms",
   "directories": {
     "lib": "lib"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/prisma-cms/component-boilerplate.git"
   },
   "keywords": [
     "prisma-cms",
     "front",
+    "ethereum",
+    "web3",
     "components"
   ],
   "author": "Fi1osof",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/prisma-cms/component-boilerplate/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prisma-cms/ethereum.git"
   },
-  "homepage": "https://github.com/prisma-cms/component-boilerplate#readme"
+  "bugs": {
+    "url": "https://github.com/prisma-cms/ethereum/issues"
+  },
+  "homepage": "https://github.com/prisma-cms/ethereum#readme"
 }
