@@ -1,6 +1,7 @@
 
 import {
   EthContractNoNestingFragment,
+  EthDeployedContractNoNestingFragment,
   UserNoNestingFragment,
 } from "../../../schema/generated/api.fragments";
 
@@ -10,6 +11,16 @@ export const ethContractFragment = `
     ...EthContractNoNesting
     CreatedBy {
       ...UserNoNesting
+    }
+    Deployed{
+      id
+      createdAt
+      updatedAt
+      txHash
+      address
+      CreatedBy {
+        ...UserNoNesting
+      }
     }
   }
   
@@ -107,4 +118,28 @@ export const ethContract = `
 
   ${ethContractFragment}
 
+`;
+
+export const deployEthContractProcessor = `
+  mutation deployEthContractProcessor (
+    $where: EthContractWhereUniqueInput!
+    $data: EthContractDeployInput!
+  ){
+    response: deployEthContractProcessor (
+      data: $data
+      where: $where
+    ){
+      success
+      message
+      errors{
+        key
+        message
+      }
+      data{
+        ...ethContract
+      }
+    }
+  }
+
+  ${ethContractFragment}
 `;

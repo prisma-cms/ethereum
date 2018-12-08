@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  ethContract,
-  updateEthContractProcessor,
-  deployEthContractProcessor,
+  ethTransaction,
+  updateEthTransactionProcessor,
+  deployEthTransactionProcessor,
 } from "../query";
 
 import { compose, graphql } from 'react-apollo';
@@ -12,16 +12,16 @@ import gql from 'graphql-tag';
 
 import Page from "../../layout";
 
-import View from "../View/Contract";
+import View from "../View/Transaction";
 
 export const connectors = [
   {
-    code: ethContract,
+    code: ethTransaction,
   },
-  {
-    code: updateEthContractProcessor,
-    // name: "updateEthContractProcessor",
-  },
+  // {
+  //   code: updateEthTransactionProcessor,
+  //   // name: "updateEthTransactionProcessor",
+  // },
 ]
 
 export const createConnector = function (connectors) {
@@ -36,16 +36,10 @@ export const createConnector = function (connectors) {
       ...other,
     });
   }));
-
-  // const code = ethContractsConnection;
-
-  // return compose(
-  //   [graphql(gql(code))],
-  // );
 }
 
 
-class ContractPage extends Page {
+class TransactionPage extends Page {
 
 
   static defaultProps = {
@@ -82,7 +76,7 @@ class ContractPage extends Page {
     const {
       match: {
         params: {
-          contractId,
+          transactionId,
         },
       },
       ...other
@@ -92,7 +86,7 @@ class ContractPage extends Page {
 
     return super.render(<Connector
       where={{
-        id: contractId,
+        id: transactionId,
       }}
       onSave={this.onSave ? result => this.onSave(result) : undefined}
       {...other}
@@ -101,4 +95,4 @@ class ContractPage extends Page {
 }
 
 
-export default ContractPage;
+export default TransactionPage;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import EditableView from 'apollo-cms/lib/DataView/Object/Editable';
 
 import withStyles from "material-ui/styles/withStyles";
-import { Typography, IconButton, TextField } from 'material-ui';
+import { Typography, IconButton } from 'material-ui';
 
 import Editor from "@prisma-cms/editor";
 
@@ -27,11 +27,6 @@ import {
   Grid,
 } from "../../../../ui"
 
-import gql from 'graphql-tag';
-
-import {
-  deployEthContractProcessor,
-} from "../../query";
 
 const styles = theme => {
 
@@ -43,58 +38,50 @@ const styles = theme => {
 
 }
 
-class ContractView extends EditableView {
+class DeployedContractView extends EditableView {
 
 
   static propTypes = {
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
-    deployEthContractProcessorQuery: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     ...EditableView.defaultProps,
-    deployEthContractProcessorQuery: gql(deployEthContractProcessor),
   };
 
   static contextTypes = {
     ...EditableView.contextTypes,
     openLoginForm: PropTypes.func.isRequired,
-    DeployedContractLink: PropTypes.func.isRequired,
-    UserLink: PropTypes.func.isRequired,
   };
 
 
-  state = {
-    ...super.state,
-    showPasswordField: false,
-    password: "",
-    isDeploying: false,
-  }
-
   canEdit() {
 
-    const {
-      user: currentUser,
-    } = this.context;
+    // const {
+    //   user: currentUser,
+    // } = this.context;
 
-    const {
-      id: currentUserId,
-      sudo,
-    } = currentUser || {};
-
-
-    const {
-      id,
-      CreatedBy,
-    } = this.getObjectWithMutations() || {};
+    // const {
+    //   id: currentUserId,
+    //   sudo,
+    // } = currentUser || {};
 
 
-    const {
-      id: createdById,
-    } = CreatedBy || {}
+    // const {
+    //   id,
+    //   CreatedBy,
+    // } = this.getObjectWithMutations() || {};
 
-    return !id || (createdById && createdById === currentUserId) || sudo === true;
+
+    // const {
+    //   id: createdById,
+    // } = CreatedBy || {}
+
+    // return !id || (createdById && createdById === currentUserId) || sudo === true;
+
+    return false;
+    
   }
 
 
@@ -120,151 +107,38 @@ class ContractView extends EditableView {
       id,
     } = this.getObject() || {};
 
-    return `contract_${id || "new"}`;
-  }
-
-
-  async deployContract() {
-
-    const {
-      isDeploying,
-      password,
-    } = this.state;
-
-    if (isDeploying) {
-      return;
-    }
-
-    const {
-      id,
-    } = this.getObjectWithMutations();
-
-
-    const {
-      deployEthContractProcessorQuery,
-    } = this.props;
-
-
-    this.setState({
-      isDeploying: true,
-    });
-
-
-    await this.mutate({
-      mutation: deployEthContractProcessorQuery,
-      variables: {
-        where: {
-          id,
-        },
-        data: {
-          password,
-        },
-      },
-    })
-      .then(() => {
-
-        this.setState({
-          showPasswordField: false,
-          password: null,
-        });
-
-      })
-      .catch(error => {
-
-      });
-
-    this.setState({
-      isDeploying: false,
-    });
-
+    return `deployedContract_${id || "new"}`;
   }
 
 
   getButtons() {
 
-    const {
-      isDeploying,
-      showPasswordField,
-      password,
-    } = this.state;
-
     let buttons = super.getButtons() || [];
 
     const {
       id,
+      txHash,
     } = this.getObjectWithMutations() || {};
 
     const canEdit = this.canEdit();
 
     if (canEdit && id) {
 
-      const {
-        deployEthContractProcessorQuery,
-      } = this.props;
-
-
-      if (showPasswordField) {
-
-        // buttons.push(<TextField
-        //   key="deployPassword"
-        //   name="password"
-        //   label="Пароль"
-        //   value={password || ""}
-        //   onChange={event => {
-        //     const {
-        //       value: password,
-        //     } = event.target;
-
-        //     this.setState({
-        //       password,
-        //     });
-        //   }}
-        // />);
-
-        buttons.push(this.getTextField({
-          name: "password",
-          label: "Пароль",
-          fullWidth: false,
-          value: password || "",
-          helperText: "PK от вашего этериум-кошелька",
-          onChange: event => {
-            const {
-              value: password,
-            } = event.target;
-
-            this.setState({
-              password,
-            });
-          }
-        }));
+      if (txHash) {
+        buttons.push(
+          <DoneIcon
+            key="done"
+            color="green"
+          />
+        );
       }
-
-      if (isDeploying) {
-
-        buttons.push(<CircularProgress
-          key="deployProcess"
-        />);
-
-      }
-      else if (deployEthContractProcessorQuery) {
+      else {
         buttons.push(<IconButton
           key="deploy"
-          onClick={event => {
-
-            if (showPasswordField) {
-              this.deployContract()
-            }
-            else {
-              this.setState({
-                showPasswordField: true,
-              });
-            }
-          }}
         >
           <PublishIcon />
         </IconButton>);
       }
-
 
     }
 
@@ -287,13 +161,7 @@ class ContractView extends EditableView {
     }
 
     const {
-      DeployedContractLink,
-      UserLink,
-    } = this.context;
-
-
-    const {
-      id: contractId,
+      id: deployedContractId,
       description,
       source,
       Deployed,
@@ -380,25 +248,20 @@ class ContractView extends EditableView {
                   CreatedBy,
                 } = n;
 
-                if (!address) {
+                if(!address){
                   return address;
                 }
 
-                return <Grid
+                return <Typography
                   key={id}
-                  container
-                  alignItems="center"
-                  style={{
-                    marginBottom: 30,
-                  }}
                 >
-                  <DeployedContractLink
-                    object={n}
-                  />
-                  <UserLink
-                    user={CreatedBy}
-                  /> {moment(createdAt).format('lll')}
-                </Grid>
+                  {moment(createdAt).format('lll')} <a
+                    href={`https://etherscan.io/address/${address}`}
+                    target="_blank"
+                  >
+                    {address}
+                  </a>
+                </Typography>
 
               })}
             </Grid>
@@ -427,7 +290,7 @@ class ContractView extends EditableView {
     }
 
     const {
-      id: contractId,
+      id: deployedContractId,
       description,
       source,
     } = object;
@@ -537,4 +400,4 @@ class ContractView extends EditableView {
 }
 
 
-export default withStyles(styles)(ContractView);
+export default withStyles(styles)(DeployedContractView);

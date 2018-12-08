@@ -6,6 +6,11 @@ import "./styles/less/styles.css";
 import ContractsPage from "./components/pages/Contracts";
 import ContractPage from "./components/pages/Contracts/Contract";
 import ContractCreatePage from "./components/pages/Contracts/Contract/Create";
+
+import DeployedContractPage from "./components/pages/DeployedContracts/Contract";
+
+import TransactionsPage from "./components/pages/Transactions";
+
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { Typography } from 'material-ui';
@@ -15,6 +20,10 @@ export {
   ContractsPage,
   ContractPage,
   ContractCreatePage,
+
+  DeployedContractPage,
+
+  TransactionsPage,
 }
 
 

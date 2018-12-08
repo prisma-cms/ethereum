@@ -7,9 +7,13 @@ import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
 
 import App, {
-  ContractsPage, 
+  ContractsPage,
   ContractPage,
   ContractCreatePage,
+
+  DeployedContractPage,
+
+  TransactionsPage,
 } from "../App";
 
 import { Grid } from 'material-ui';
@@ -17,6 +21,12 @@ import { Grid } from 'material-ui';
 import {
   Link,
 } from "react-router-dom";
+
+import {
+  DeployedContractLink,
+  UserLink,
+  TransactionLink,
+} from "../components/ui";
 
 import { withStyles } from 'material-ui';
 
@@ -39,6 +49,26 @@ class DevRenderer extends PrismaCmsRenderer {
   static defaultProps = {
     ...PrismaCmsRenderer.defaultProps,
     pure: false,
+  }
+
+
+  static childContextTypes = {
+    ...PrismaCmsRenderer.childContextTypes,
+    DeployedContractLink: PropTypes.func,
+    UserLink: PropTypes.func,
+    TransactionLink: PropTypes.func,
+  }
+
+
+  getChildContext() {
+
+
+    return {
+      ...super.getChildContext(),
+      DeployedContractLink,
+      UserLink,
+      TransactionLink,
+    }
   }
 
   getRoutes() {
@@ -78,6 +108,22 @@ class DevRenderer extends PrismaCmsRenderer {
         //     orderBy="createdAt_DESC"
         //   />;
         // }
+      },
+      {
+        exact: true,
+        path: "/eth-contracts-deployed/:contractId",
+        component: DeployedContractPage,
+      },
+      {
+        exact: true,
+        path: "/eth-transactions",
+        // component: ContractsPage,
+        render: props => <TransactionsPage
+          {...props}
+          where={{}}
+          first={10}
+          orderBy="createdAt_DESC"
+        />
       },
       // {
       //   path: "*",
@@ -120,6 +166,17 @@ class DevRenderer extends PrismaCmsRenderer {
             className={classes.menuItem}
           >
             Create Contract
+          </Link>
+        </Grid>
+
+        <Grid
+          item
+        >
+          <Link
+            to="/eth-transactions"
+            className={classes.menuItem}
+          >
+            Transactions
           </Link>
         </Grid>
 

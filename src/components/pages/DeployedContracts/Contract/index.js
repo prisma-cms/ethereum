@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  ethContract,
-  updateEthContractProcessor,
-  deployEthContractProcessor,
+  ethDeployedContract,
 } from "../query";
 
 import { compose, graphql } from 'react-apollo';
@@ -12,15 +10,11 @@ import gql from 'graphql-tag';
 
 import Page from "../../layout";
 
-import View from "../View/Contract";
+import View from "../View/DeployedContract";
 
 export const connectors = [
   {
-    code: ethContract,
-  },
-  {
-    code: updateEthContractProcessor,
-    // name: "updateEthContractProcessor",
+    code: ethDeployedContract,
   },
 ]
 
@@ -36,16 +30,11 @@ export const createConnector = function (connectors) {
       ...other,
     });
   }));
-
-  // const code = ethContractsConnection;
-
-  // return compose(
-  //   [graphql(gql(code))],
-  // );
+ 
 }
 
 
-class ContractPage extends Page {
+class DeployedContractPage extends Page {
 
 
   static defaultProps = {
@@ -101,4 +90,4 @@ class ContractPage extends Page {
 }
 
 
-export default ContractPage;
+export default DeployedContractPage;
