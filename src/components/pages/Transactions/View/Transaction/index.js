@@ -6,20 +6,9 @@ import EditableView from 'apollo-cms/lib/DataView/Object/Editable';
 import withStyles from "material-ui/styles/withStyles";
 import { Typography, IconButton, TextField } from 'material-ui';
 
-import Editor from "@prisma-cms/editor";
-
-// import brace from 'brace';
-import AceEditor from 'react-ace';
-
-import 'brace/mode/java';
-import 'brace/theme/monokai';
-import 'ace-mode-solidity';
 
 import { CircularProgress } from 'material-ui/Progress';
 
-import PublishIcon from "material-ui-icons/Publish";
-import DoneIcon from "material-ui-icons/Done";
-import DoneAllIcon from "material-ui-icons/DoneAll";
 
 import moment from "moment";
 

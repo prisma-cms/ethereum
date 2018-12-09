@@ -8,12 +8,7 @@ import { Typography, IconButton, TextField } from 'material-ui';
 
 import Editor from "@prisma-cms/editor";
 
-// import brace from 'brace';
-import AceEditor from 'react-ace';
-
-import 'brace/mode/java';
-import 'brace/theme/monokai';
-import 'ace-mode-solidity';
+// import AceEditor from 'react-ace';
 
 import { CircularProgress } from 'material-ui/Progress';
 
@@ -335,7 +330,7 @@ class ContractSourceView extends EditableView {
           spacing={16}
         >
 
-          {source ?
+          {/* {source ?
             <Grid
               item
               xs={12}
@@ -356,7 +351,7 @@ class ContractSourceView extends EditableView {
                 editorProps={{ $blockScrolling: true }}
               />
             </Grid> : null
-          }
+          } */}
 
           {Accounts && Accounts.length ?
 
@@ -469,7 +464,7 @@ class ContractSourceView extends EditableView {
         })}
       </Grid>
 
-      <Grid
+      {/* <Grid
         item
         xs={12}
       >
@@ -493,7 +488,7 @@ class ContractSourceView extends EditableView {
         })}
 
 
-      </Grid>
+      </Grid> */}
 
 
     </Grid>;
@@ -513,6 +508,11 @@ class ContractSourceView extends EditableView {
 
 
   render() {
+
+
+    if (typeof window === "undefined") {
+      return null;
+    }
 
     const object = this.getObjectWithMutations();
 

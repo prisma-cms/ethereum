@@ -227,6 +227,15 @@ export class DevApp extends Component {
     lang: "ru",
   }
 
+
+  // componentDidMount() {
+
+  //   // require('brace/mode/java');
+  //   // require('brace/theme/monokai');
+  //   require('ace-mode-solidity');
+
+  // }
+
   render() {
 
     const {

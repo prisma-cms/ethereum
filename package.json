@@ -1,6 +1,6 @@
 {
   "name": "@prisma-cms/ethereum",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": false,
   "main": "lib/App.js",
   "scripts": {
@@ -13,9 +13,7 @@
   },
   "dependencies": {
     "@prisma-cms/editor": "latest",
-    "ace-mode-solidity": "^0.1.1",
     "react": "^16.6.0",
-    "react-ace": "^6.2.0",
     "react-dom": "^16.6.0"
   },
   "devDependencies": {
