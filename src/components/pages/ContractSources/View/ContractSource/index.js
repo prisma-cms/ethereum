@@ -30,7 +30,7 @@ import {
 import gql from 'graphql-tag';
 
 import {
-  deployEthContractProcessor,
+  deployEthContractSourceProcessor,
 } from "../../query";
 
 const styles = theme => {
@@ -43,24 +43,24 @@ const styles = theme => {
 
 }
 
-class ContractView extends EditableView {
+class ContractSourceView extends EditableView {
 
 
   static propTypes = {
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
-    deployEthContractProcessorQuery: PropTypes.object.isRequired,
+    deployEthContractSourceProcessorQuery: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     ...EditableView.defaultProps,
-    deployEthContractProcessorQuery: gql(deployEthContractProcessor),
+    deployEthContractSourceProcessorQuery: gql(deployEthContractSourceProcessor),
   };
 
   static contextTypes = {
     ...EditableView.contextTypes,
     openLoginForm: PropTypes.func.isRequired,
-    DeployedContractLink: PropTypes.func.isRequired,
+    AccountLink: PropTypes.func.isRequired,
     UserLink: PropTypes.func.isRequired,
   };
 
@@ -120,11 +120,11 @@ class ContractView extends EditableView {
       id,
     } = this.getObject() || {};
 
-    return `contract_${id || "new"}`;
+    return `contractSource_${id || "new"}`;
   }
 
 
-  async deployContract() {
+  async deployContractSource() {
 
     const {
       isDeploying,
@@ -141,7 +141,7 @@ class ContractView extends EditableView {
 
 
     const {
-      deployEthContractProcessorQuery,
+      deployEthContractSourceProcessorQuery,
     } = this.props;
 
 
@@ -151,7 +151,7 @@ class ContractView extends EditableView {
 
 
     await this.mutate({
-      mutation: deployEthContractProcessorQuery,
+      mutation: deployEthContractSourceProcessorQuery,
       variables: {
         where: {
           id,
@@ -199,7 +199,7 @@ class ContractView extends EditableView {
     if (canEdit && id) {
 
       const {
-        deployEthContractProcessorQuery,
+        deployEthContractSourceProcessorQuery,
       } = this.props;
 
 
@@ -246,13 +246,13 @@ class ContractView extends EditableView {
         />);
 
       }
-      else if (deployEthContractProcessorQuery) {
+      else if (deployEthContractSourceProcessorQuery) {
         buttons.push(<IconButton
           key="deploy"
           onClick={event => {
 
             if (showPasswordField) {
-              this.deployContract()
+              this.deployContractSource()
             }
             else {
               this.setState({
@@ -287,16 +287,16 @@ class ContractView extends EditableView {
     }
 
     const {
-      DeployedContractLink,
+      AccountLink,
       UserLink,
     } = this.context;
 
 
     const {
-      id: contractId,
+      id: contractSourceId,
       description,
       source,
-      Deployed,
+      Accounts,
     } = object;
 
 
@@ -358,7 +358,7 @@ class ContractView extends EditableView {
             </Grid> : null
           }
 
-          {Deployed && Deployed.length ?
+          {Accounts && Accounts.length ?
 
 
             <Grid
@@ -370,12 +370,11 @@ class ContractView extends EditableView {
                 Опубликованные контракты
               </Typography>
 
-              {Deployed.map(n => {
+              {Accounts.map(n => {
 
                 const {
                   id,
                   createdAt,
-                  txHash,
                   address,
                   CreatedBy,
                 } = n;
@@ -392,7 +391,7 @@ class ContractView extends EditableView {
                     marginBottom: 30,
                   }}
                 >
-                  <DeployedContractLink
+                  <AccountLink
                     object={n}
                   />
                   <UserLink
@@ -427,7 +426,7 @@ class ContractView extends EditableView {
     }
 
     const {
-      id: contractId,
+      id: contractSourceId,
       description,
       source,
     } = object;
@@ -537,4 +536,4 @@ class ContractView extends EditableView {
 }
 
 
-export default withStyles(styles)(ContractView);
+export default withStyles(styles)(ContractSourceView);

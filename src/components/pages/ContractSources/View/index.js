@@ -5,16 +5,16 @@ import View from "../../layout/View";
 
 import {
   Grid,
-  ContractLink,
+  ContractSourceLink,
 } from "../../../ui";
 
-import Contract from "./Contract";
+import ContractSource from "./ContractSource";
 import { Paper } from 'material-ui';
 
-class ContractsView extends View {
+class ContractSourcesView extends View {
 
   static propTypes = {
-    updateEthContractProcessor: PropTypes.func.isRequired,
+    updateEthContractSourceProcessor: PropTypes.func.isRequired,
   };
 
 
@@ -26,7 +26,7 @@ class ContractsView extends View {
         objectsConnection,
         loading,
       },
-      updateEthContractProcessor,
+      updateEthContractSourceProcessor,
     } = this.props;
 
 
@@ -64,19 +64,19 @@ class ContractsView extends View {
                   padding: 15,
                 }}
               >
-                <Contract
+                <ContractSource
                   data={{
                     object: n,
                   }}
-                  mutate={updateEthContractProcessor}
+                  mutate={updateEthContractSourceProcessor}
                 />
 
                 <p>
-                  <ContractLink
+                  <ContractSourceLink
                     object={n}
                   >
-                    View contract
-                </ContractLink>
+                    View contractSource
+                </ContractSourceLink>
                 </p>
               </Paper>
             </Grid>
@@ -90,4 +90,4 @@ class ContractsView extends View {
 }
 
 
-export default ContractsView;
+export default ContractSourcesView;

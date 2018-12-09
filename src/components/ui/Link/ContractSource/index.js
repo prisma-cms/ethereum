@@ -11,7 +11,7 @@ const styles = {
 };
 
 
-export class DeployedContractLink extends Component {
+export class ContractSourceLink extends Component {
 
   render() {
 
@@ -28,27 +28,27 @@ export class DeployedContractLink extends Component {
 
     const {
       id,
-      address,
+      name,
     } = object;
 
 
-    if (!address || !id) {
+    if (!name || !id) {
       return null;
     }
 
     return <Link
-      to={`/eth-contracts-deployed/${id}`}
-      title={address}
+      to={`/eth-contract-sources/${id}`}
+      title={name}
       {...other}
     >
       {children || <Typography
         component="span"
       >
-        {address}
+        {name}
       </Typography>}
     </Link>
   }
 }
 
 
-export default withStyles(styles)(DeployedContractLink);
+export default withStyles(styles)(ContractSourceLink);

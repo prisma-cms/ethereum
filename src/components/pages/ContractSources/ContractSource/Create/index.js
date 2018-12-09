@@ -2,26 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 
-import ContractPage from "../";
+import ContractSourcePage from "../";
 
 import {
-  createEthContractProcessor,
+  createEthContractSourceProcessor,
 } from "../../query";
 
 export const connectors = [
   {
-    code: createEthContractProcessor,
-    // name: "createEthContractProcessor",
+    code: createEthContractSourceProcessor,
+    // name: "createEthContractSourceProcessor",
   },
 ]
 
 
 
-class ContractCreatePage extends ContractPage {
+class ContractSourceCreatePage extends ContractSourcePage {
 
 
   static defaultProps = {
-    ...ContractPage.defaultProps,
+    ...ContractSourcePage.defaultProps,
     connectors,
     data: {
       object: {},
@@ -53,7 +53,7 @@ class ContractCreatePage extends ContractPage {
           history,
         } = this.props;
 
-        history.push(`/eth-contracts/${id}/`);
+        history.push(`/eth-contract-sources/${id}/`);
       }
 
     }
@@ -64,4 +64,4 @@ class ContractCreatePage extends ContractPage {
 }
 
 
-export default ContractCreatePage;
+export default ContractSourceCreatePage;

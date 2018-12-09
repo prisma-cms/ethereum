@@ -2,30 +2,25 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  ethContractsConnection,
-  updateEthContractProcessor,
-} from "./query";
+  ethContractSource,
+  updateEthContractSourceProcessor,
+  deployEthContractSourceProcessor,
+} from "../query";
 
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Page from "../layout";
+import Page from "../../layout";
 
-import View from "./View";
-
-// export const connectors = {
-//   ethContractsConnection: {
-//     code: ethContractsConnection,
-//   },
-// }
+import View from "../View/ContractSource";
 
 export const connectors = [
   {
-    code: ethContractsConnection,
+    code: ethContractSource,
   },
   {
-    code: updateEthContractProcessor,
-    name: "updateEthContractProcessor",
+    code: updateEthContractSourceProcessor,
+    // name: "updateEthContractSourceProcessor",
   },
 ]
 
@@ -42,7 +37,7 @@ export const createConnector = function (connectors) {
     });
   }));
 
-  // const code = ethContractsConnection;
+  // const code = ethContractSourcesConnection;
 
   // return compose(
   //   [graphql(gql(code))],
@@ -50,7 +45,7 @@ export const createConnector = function (connectors) {
 }
 
 
-class ContractsPage extends Page {
+class ContractSourcePage extends Page {
 
 
   static defaultProps = {
@@ -85,15 +80,25 @@ class ContractsPage extends Page {
     } = this.state;
 
     const {
+      match: {
+        params: {
+          contractSourceId,
+        },
+      },
       ...other
     } = this.props;
 
+    // return null;
+
     return super.render(<Connector
-      {...this.getPaginationData()}
+      where={{
+        id: contractSourceId,
+      }}
+      onSave={this.onSave ? result => this.onSave(result) : undefined}
       {...other}
     />);
   }
 }
 
 
-export default ContractsPage;
+export default ContractSourcePage;

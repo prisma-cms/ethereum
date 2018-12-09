@@ -2,19 +2,30 @@
 import {
   EthTransactionNoNestingFragment,
   UserNoNestingFragment,
+  EthAccountNoNestingFragment,
 } from "../../../schema/generated/api.fragments";
 
 
 export const ethTransactionFragment = `
   fragment ethTransaction on EthTransaction {
     ...EthTransactionNoNesting
-    CreatedBy {
-      ...UserNoNesting
+    Sender{
+      ...EthAccountNoNesting
+      CreatedBy {
+        ...UserNoNesting
+      }
+    }
+    Receiver{
+      ...EthAccountNoNesting
+      CreatedBy {
+        ...UserNoNesting
+      }
     }
   }
   
   ${EthTransactionNoNestingFragment}
   ${UserNoNestingFragment}
+  ${EthAccountNoNestingFragment}
 `;
 
 

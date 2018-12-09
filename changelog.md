@@ -1,3 +1,8 @@
+1.2.0
+=================================
+- Code refactoring
+- Added transactions pages
+
 1.1.1
 =================================
 - Added deploy contracts

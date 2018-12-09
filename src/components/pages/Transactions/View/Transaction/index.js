@@ -36,9 +36,14 @@ const styles = theme => {
     },
 
     table: {
+      borderCollapse: "collapse",
+      width: "100%",
+
       "& th, td": {
         textAlign: "left",
-        verticalAlign: "top",
+        verticalAlign: "center",
+        padding: "5px 10px",
+        border: "1px solid #ddd",
       },
     },
   }
@@ -110,8 +115,8 @@ class TransactionView extends EditableView {
 
   //   return address && [...address] || null;
   // }
-  
-  renderHeader(){
+
+  renderHeader() {
 
     return null;
   }
@@ -138,11 +143,43 @@ class TransactionView extends EditableView {
     const {
       id: transactionId,
       address,
+      type,
+      amount,
+      Sender,
+      Receiver,
     } = object;
 
 
+    const {
+      CreatedBy: SenderUser,
+    } = Sender || {};
+
+
+    const {
+      CreatedBy: ReceiverUser,
+    } = Receiver || {};
+
     const inEditMode = this.isInEditMode();
     const canEdit = this.canEdit();
+
+
+    let transactionType = type;
+
+    switch (type) {
+
+      case "SendEth":
+
+        transactionType = "Перевод эфира";
+
+        break;
+
+      case "ContractCreate":
+
+        transactionType = "Создание контракта";
+
+        break;
+
+    }
 
 
     return <Grid
@@ -160,13 +197,13 @@ class TransactionView extends EditableView {
           className={classes.table}
         >
           <tbody>
-          
+
             <tr>
               <th>
-                Адрес транзакции:
+                Адрес транзакции
               </th>
               <td>
-                <a 
+                <a
                   href={`https://etherscan.io/tx/${address}`}
                   target="_blank"
                   rel="nowollow"
@@ -178,12 +215,52 @@ class TransactionView extends EditableView {
 
             <tr>
               <th>
-
+                Тип транзакции
               </th>
               <td>
-
+                {transactionType}
               </td>
             </tr>
+
+            {amount ?
+              <tr>
+                <th>
+                  Сумма
+              </th>
+                <td>
+                  {amount}
+                </td>
+              </tr>
+              : null
+            }
+
+            {SenderUser ?
+              <tr>
+                <th>
+                  Отправитель
+              </th>
+                <td>
+                  <UserLink
+                    user={SenderUser}
+                  />
+                </td>
+              </tr>
+              : null
+            }
+
+            {ReceiverUser ?
+              <tr>
+                <th>
+                  Получатель
+              </th>
+                <td>
+                  <UserLink
+                    user={ReceiverUser}
+                  />
+                </td>
+              </tr>
+              : null
+            }
 
           </tbody>
         </table>
@@ -201,7 +278,7 @@ class TransactionView extends EditableView {
 
   }
 
-  
+
 
 
   render() {

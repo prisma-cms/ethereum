@@ -37,7 +37,7 @@ export class TransactionLink extends Component {
     }
 
     return <Link
-      to={`/eth-transaction/${id}`}
+      to={`/eth-transactions/${id}`}
       title={address}
       {...other}
     >

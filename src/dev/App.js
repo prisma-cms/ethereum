@@ -7,13 +7,14 @@ import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
 
 import App, {
-  ContractsPage,
-  ContractPage,
-  ContractCreatePage,
+  ContractSourcesPage,
+  ContractSourcePage,
+  ContractSourceCreatePage,
 
-  DeployedContractPage,
+  AccountPage,
 
   TransactionsPage,
+  TransactionPage,
 } from "../App";
 
 import { Grid } from 'material-ui';
@@ -23,7 +24,7 @@ import {
 } from "react-router-dom";
 
 import {
-  DeployedContractLink,
+  AccountLink,
   UserLink,
   TransactionLink,
 } from "../components/ui";
@@ -54,7 +55,7 @@ class DevRenderer extends PrismaCmsRenderer {
 
   static childContextTypes = {
     ...PrismaCmsRenderer.childContextTypes,
-    DeployedContractLink: PropTypes.func,
+    AccountLink: PropTypes.func,
     UserLink: PropTypes.func,
     TransactionLink: PropTypes.func,
   }
@@ -65,7 +66,7 @@ class DevRenderer extends PrismaCmsRenderer {
 
     return {
       ...super.getChildContext(),
-      DeployedContractLink,
+      AccountLink,
       UserLink,
       TransactionLink,
     }
@@ -81,9 +82,9 @@ class DevRenderer extends PrismaCmsRenderer {
       },
       {
         exact: true,
-        path: "/eth-contracts",
-        // component: ContractsPage,
-        render: props => <ContractsPage
+        path: "/eth-contract-sources",
+        // component: ContractSourcesPage,
+        render: props => <ContractSourcesPage
           {...props}
           where={{}}
           first={12}
@@ -92,16 +93,16 @@ class DevRenderer extends PrismaCmsRenderer {
       },
       {
         exact: true,
-        path: "/eth-contracts/create",
-        component: ContractCreatePage,
+        path: "/eth-contract-sources/create",
+        component: ContractSourceCreatePage,
       },
       {
         exact: true,
-        path: "/eth-contracts/:contractId",
-        component: ContractPage,
+        path: "/eth-contract-sources/:contractSourceId",
+        component: ContractSourcePage,
         // render: props => {
 
-        //   return <ContractsPage
+        //   return <ContractSourcesPage
         //     {...props}
         //     where={{}}
         //     first={12}
@@ -111,19 +112,33 @@ class DevRenderer extends PrismaCmsRenderer {
       },
       {
         exact: true,
-        path: "/eth-contracts-deployed/:contractId",
-        component: DeployedContractPage,
+        path: "/eth-contract-sources-accounts/:contractSourceId",
+        component: AccountPage,
       },
       {
         exact: true,
         path: "/eth-transactions",
-        // component: ContractsPage,
+        // component: ContractSourcesPage,
         render: props => <TransactionsPage
           {...props}
           where={{}}
           first={10}
           orderBy="createdAt_DESC"
         />
+      },
+      {
+        exact: true,
+        path: "/eth-transactions/:transactionId",
+        component: TransactionPage,
+        // render: props => {
+
+        //   return <ContractSourcesPage
+        //     {...props}
+        //     where={{}}
+        //     first={12}
+        //     orderBy="createdAt_DESC"
+        //   />;
+        // }
       },
       // {
       //   path: "*",
@@ -151,10 +166,10 @@ class DevRenderer extends PrismaCmsRenderer {
           item
         >
           <Link
-            to="/eth-contracts"
+            to="/eth-contract-sources"
             className={classes.menuItem}
           >
-            Contracts
+            ContractSources
           </Link>
         </Grid>
 
@@ -162,10 +177,10 @@ class DevRenderer extends PrismaCmsRenderer {
           item
         >
           <Link
-            to="/eth-contracts/create"
+            to="/eth-contract-sources/create"
             className={classes.menuItem}
           >
-            Create Contract
+            Create ContractSource
           </Link>
         </Grid>
 

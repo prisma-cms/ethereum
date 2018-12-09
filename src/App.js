@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import "./styles/less/styles.css";
 
-import ContractsPage from "./components/pages/Contracts";
-import ContractPage from "./components/pages/Contracts/Contract";
-import ContractCreatePage from "./components/pages/Contracts/Contract/Create";
+import ContractSourcesPage from "./components/pages/ContractSources";
+import ContractSourcePage from "./components/pages/ContractSources/ContractSource";
+import ContractSourceCreatePage from "./components/pages/ContractSources/ContractSource/Create";
 
-import DeployedContractPage from "./components/pages/DeployedContracts/Contract";
+import AccountPage from "./components/pages/Accounts/Account";
 
 import TransactionsPage from "./components/pages/Transactions";
+import TransactionPage from "./components/pages/Transactions/Transaction";
 
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
@@ -17,13 +18,14 @@ import { Typography } from 'material-ui';
 
 
 export {
-  ContractsPage,
-  ContractPage,
-  ContractCreatePage,
+  ContractSourcesPage,
+  ContractSourcePage,
+  ContractSourceCreatePage,
 
-  DeployedContractPage,
+  AccountPage,
 
   TransactionsPage,
+  TransactionPage,
 }
 
 

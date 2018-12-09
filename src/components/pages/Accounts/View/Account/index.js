@@ -38,7 +38,7 @@ const styles = theme => {
 
 }
 
-class DeployedContractView extends EditableView {
+class AccountView extends EditableView {
 
 
   static propTypes = {
@@ -107,7 +107,7 @@ class DeployedContractView extends EditableView {
       id,
     } = this.getObject() || {};
 
-    return `deployedContract_${id || "new"}`;
+    return `account_${id || "new"}`;
   }
 
 
@@ -117,14 +117,14 @@ class DeployedContractView extends EditableView {
 
     const {
       id,
-      txHash,
+      address,
     } = this.getObjectWithMutations() || {};
 
     const canEdit = this.canEdit();
 
     if (canEdit && id) {
 
-      if (txHash) {
+      if (address) {
         buttons.push(
           <DoneIcon
             key="done"
@@ -161,10 +161,10 @@ class DeployedContractView extends EditableView {
     }
 
     const {
-      id: deployedContractId,
+      id: accountId,
       description,
       source,
-      Deployed,
+      Accounts,
     } = object;
 
 
@@ -226,7 +226,7 @@ class DeployedContractView extends EditableView {
             </Grid> : null
           }
 
-          {Deployed && Deployed.length ?
+          {Accounts && Accounts.length ?
 
 
             <Grid
@@ -238,12 +238,11 @@ class DeployedContractView extends EditableView {
                 Опубликованные контракты
               </Typography>
 
-              {Deployed.map(n => {
+              {Accounts.map(n => {
 
                 const {
                   id,
                   createdAt,
-                  txHash,
                   address,
                   CreatedBy,
                 } = n;
@@ -290,7 +289,7 @@ class DeployedContractView extends EditableView {
     }
 
     const {
-      id: deployedContractId,
+      id: accountId,
       description,
       source,
     } = object;
@@ -400,4 +399,4 @@ class DeployedContractView extends EditableView {
 }
 
 
-export default withStyles(styles)(DeployedContractView);
+export default withStyles(styles)(AccountView);
