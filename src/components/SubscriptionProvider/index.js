@@ -50,9 +50,9 @@ export default class SubscriptionProvider extends Component {
     } = this.state;
 
 
-    const subscribeUser = gql`
-      subscription user{
-        user{
+    const subscribeEthTransaction = gql`
+      subscription ethTransaction{
+        ethTransaction{
           mutation
           node{
             id
@@ -61,9 +61,9 @@ export default class SubscriptionProvider extends Component {
       }
     `;
 
-    const userSub = await client
+    const ethTransactionSub = await client
       .subscribe({
-        query: subscribeUser,
+        query: subscribeEthTransaction,
         variables: {
         },
       })
@@ -79,7 +79,7 @@ export default class SubscriptionProvider extends Component {
       });
 
 
-    subscriptions.push(userSub);
+    subscriptions.push(ethTransactionSub);
 
     this.setState({
       subscriptions,
@@ -135,7 +135,7 @@ export default class SubscriptionProvider extends Component {
 
     const {
       children,
-      user,
+      ethTransaction,
       client,
       loadApiData,
       ...other
