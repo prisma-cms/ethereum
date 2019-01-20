@@ -1,11 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  ethTransaction,
-  updateEthTransactionProcessor,
-  deployEthTransactionProcessor,
-} from "../query";
 
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -14,15 +9,6 @@ import Page from "../../layout";
 
 import View from "../View/Transaction";
 
-export const connectors = [
-  {
-    code: ethTransaction,
-  },
-  // {
-  //   code: updateEthTransactionProcessor,
-  //   // name: "updateEthTransactionProcessor",
-  // },
-]
 
 export const createConnector = function (connectors) {
 
@@ -44,25 +30,36 @@ class TransactionPage extends Page {
 
   static defaultProps = {
     ...Page.defaultProps,
-    connectors,
     View,
   }
 
 
-  state = {}
 
-  constructor(props) {
-
-    super(props);
+  componentWillMount() {
 
     const {
-      connectors,
+      query: {
+        ethTransaction,
+      },
+    } = this.context;
+
+
+    const connectors = [
+      {
+        code: ethTransaction,
+      },
+    ]
+
+
+    const {
       View,
-    } = props;
+    } = this.props;
 
     Object.assign(this.state, {
       Connector: createConnector(connectors)(View),
     });
+
+    super.componentWillMount && super.componentWillMount();
 
   }
 

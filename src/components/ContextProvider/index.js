@@ -59,36 +59,44 @@ class ContextProvider extends Component {
   prepareQuery() {
 
     return {
-      ...this.prepareUserQuery(),
+      ...this.prepareEthAccountQuery(),
+      ...this.prepareEthTransactionQuery(),
     }
   }
 
-  prepareUserQuery() {
 
-
+  prepareEthAccountQuery() {
     const {
       queryFragments,
     } = this.context;
 
 
     const {
-      UserNoNestingFragment,
+      EthAccountNoNestingFragment,
       BatchPayloadNoNestingFragment,
     } = queryFragments;
 
 
+    const ethAccountFragment = `
+      fragment ethAccount on EthAccount {
+        ...EthAccountNoNesting
+      }
 
-    const usersConnection = `
-      query usersConnection (
-        $where: UserWhereInput
-        $orderBy: UserOrderByInput
+      ${EthAccountNoNestingFragment}
+    `;
+
+
+    const ethAccountsConnection = `
+      query ethAccountsConnection (
+        $where: EthAccountWhereInput
+        $orderBy: EthAccountOrderByInput
         $skip: Int
         $after: String
         $before: String
         $first: Int
         $last: Int
       ){
-        objectsConnection: usersConnection (
+        objectsConnection: ethAccountsConnection (
           where: $where
           orderBy: $orderBy
           skip: $skip
@@ -102,27 +110,27 @@ class ContextProvider extends Component {
           }
           edges{
             node{
-              ...UserNoNesting
+              ...ethAccount
             }
           }
         }
       }
 
-      ${UserNoNestingFragment}
+      ${ethAccountFragment}
     `;
 
 
-    const users = `
-      query users (
-        $where: UserWhereInput
-        $orderBy: UserOrderByInput
+    const ethAccounts = `
+      query ethAccounts (
+        $where: EthAccountWhereInput
+        $orderBy: EthAccountOrderByInput
         $skip: Int
         $after: String
         $before: String
         $first: Int
         $last: Int
       ){
-        objects: users (
+        objects: ethAccounts (
           where: $where
           orderBy: $orderBy
           skip: $skip
@@ -131,34 +139,34 @@ class ContextProvider extends Component {
           first: $first
           last: $last
         ){
-          ...UserNoNesting
+          ...ethAccount
         }
       }
 
-      ${UserNoNestingFragment}
+      ${ethAccountFragment}
     `;
 
 
-    const user = `
-      query user (
-        $where: UserWhereUniqueInput!
+    const ethAccount = `
+      query ethAccount (
+        $where: EthAccountWhereUniqueInput!
       ){
-        object: user (
+        object: ethAccount(
           where: $where
         ){
-          ...UserNoNesting
+          ...ethAccount
         }
       }
 
-      ${UserNoNestingFragment}
+      ${ethAccountFragment}
     `;
 
 
-    const createUserProcessor = `
-      mutation createUserProcessor(
-        $data: UserCreateInput!
+    const createEthAccountProcessor = `
+      mutation createEthAccountProcessor(
+        $data: EthAccountCreateInput!
       ) {
-        response: createUserProcessor(
+        response: createEthAccountProcessor(
           data: $data
         ){
           success
@@ -168,21 +176,21 @@ class ContextProvider extends Component {
             message
           }
           data{
-            ...UserNoNesting
+            ...ethAccount
           }
         }
       }
 
-      ${UserNoNestingFragment}
+      ${ethAccountFragment}
     `;
 
 
-    const updateUserProcessor = `
-      mutation updateUserProcessor(
-        $data: UserUpdateInput!
-        $where: UserWhereUniqueInput!
+    const updateEthAccountProcessor = `
+      mutation updateEthAccountProcessor(
+        $data: EthAccountUpdateInput!
+        $where: EthAccountWhereUniqueInput
       ) {
-        response: updateUserProcessor(
+        response: updateEthAccountProcessor(
           data: $data
           where: $where
         ){
@@ -193,35 +201,34 @@ class ContextProvider extends Component {
             message
           }
           data{
-            ...UserNoNesting
+            ...ethAccount
           }
         }
       }
 
-      ${UserNoNestingFragment}
+      ${ethAccountFragment}
     `;
 
 
-
-    const deleteUser = `
-      mutation deleteUser (
-        $where: UserWhereUniqueInput!
+    const deleteEthAccount = `
+      mutation deleteEthAccount (
+        $where: EthAccountWhereUniqueInput!
       ){
-        deleteUser(
+        deleteEthAccount(
           where: $where
         ){
-          ...UserNoNesting
+          ...EthAccountNoNesting
         }
       }
-      ${UserNoNestingFragment}
+      ${EthAccountNoNestingFragment}
     `;
 
 
-    const deleteManyUsers = `
-      mutation deleteManyUsers (
-        $where: UserWhereInput
+    const deleteManyEthAccounts = `
+      mutation deleteManyEthAccounts (
+        $where: EthAccountWhereInput
       ){
-        deleteManyUsers(
+        deleteManyEthAccounts(
           where: $where
         ){
           ...BatchPayloadNoNesting
@@ -232,15 +239,242 @@ class ContextProvider extends Component {
 
 
     return {
-      usersConnection,
-      users,
-      user,
-      createUserProcessor,
-      updateUserProcessor,
-      deleteUser,
-      deleteManyUsers,
+      ethAccountsConnection,
+      ethAccounts,
+      ethAccount,
+      createEthAccountProcessor,
+      updateEthAccountProcessor,
+      deleteEthAccount,
+      deleteManyEthAccounts,
     }
+  }
 
+
+  prepareEthTransactionQuery() {
+    const {
+      queryFragments,
+    } = this.context;
+
+
+    const {
+      EthTransactionNoNestingFragment,
+      UserNoNestingFragment,
+      EthAccountNoNestingFragment,
+      BatchPayloadNoNestingFragment,
+    } = queryFragments;
+
+
+    const ethTransactionFragment = `
+      fragment ethTransaction on EthTransaction {
+        ...EthTransactionNoNesting
+        Sender{
+          ...EthAccountNoNesting
+          CreatedBy {
+            ...UserNoNesting
+          }
+        }
+        Receiver{
+          ...EthAccountNoNesting
+          CreatedBy {
+            ...UserNoNesting
+          }
+        }
+      }
+
+      ${EthTransactionNoNestingFragment}
+      ${UserNoNestingFragment}
+      ${EthAccountNoNestingFragment}
+    `;
+
+
+    const ethTransactionsConnection = `
+      query ethTransactionsConnection (
+        $where: EthTransactionWhereInput
+        $orderBy: EthTransactionOrderByInput
+        $skip: Int
+        $after: String
+        $before: String
+        $first: Int
+        $last: Int
+      ){
+        objectsConnection: ethTransactionsConnection (
+          where: $where
+          orderBy: $orderBy
+          skip: $skip
+          after: $after
+          before: $before
+          first: $first
+          last: $last
+        ){
+          aggregate{
+            count
+          }
+          edges{
+            node{
+              ...ethTransaction
+            }
+          }
+        }
+      }
+
+      ${ethTransactionFragment}
+    `;
+
+
+    const ethTransactions = `
+      query ethTransactions (
+        $where: EthTransactionWhereInput
+        $orderBy: EthTransactionOrderByInput
+        $skip: Int
+        $after: String
+        $before: String
+        $first: Int
+        $last: Int
+      ){
+        objects: ethTransactions (
+          where: $where
+          orderBy: $orderBy
+          skip: $skip
+          after: $after
+          before: $before
+          first: $first
+          last: $last
+        ){
+          ...ethTransaction
+        }
+      }
+
+      ${ethTransactionFragment}
+    `;
+
+
+    const ethTransaction = `
+      query ethTransaction (
+        $where: EthTransactionWhereUniqueInput!
+      ){
+        object: ethTransaction(
+          where: $where
+        ){
+          ...ethTransaction
+        }
+      }
+
+      ${ethTransactionFragment}
+    `;
+
+
+    const createEthTransactionProcessor = `
+      mutation createEthTransactionProcessor(
+        $data: EthTransactionCreateInput!
+      ) {
+        response: createEthTransactionProcessor(
+          data: $data
+        ){
+          success
+          message
+          errors{
+            key
+            message
+          }
+          data{
+            ...ethTransaction
+          }
+        }
+      }
+
+      ${ethTransactionFragment}
+    `;
+
+
+    const updateEthTransactionProcessor = `
+      mutation updateEthTransactionProcessor(
+        $data: EthTransactionUpdateInput!
+        $where: EthTransactionWhereUniqueInput
+      ) {
+        response: updateEthTransactionProcessor(
+          data: $data
+          where: $where
+        ){
+          success
+          message
+          errors{
+            key
+            message
+          }
+          data{
+            ...ethTransaction
+          }
+        }
+      }
+
+      ${ethTransactionFragment}
+    `;
+
+
+    const deleteEthTransaction = `
+      mutation deleteEthTransaction (
+        $where: EthTransactionWhereUniqueInput!
+      ){
+        deleteEthTransaction(
+          where: $where
+        ){
+          ...EthTransactionNoNesting
+        }
+      }
+      ${EthTransactionNoNestingFragment}
+    `;
+
+
+    const deleteManyEthTransactions = `
+      mutation deleteManyEthTransactions (
+        $where: EthTransactionWhereInput
+      ){
+        deleteManyEthTransactions(
+          where: $where
+        ){
+          ...BatchPayloadNoNesting
+        }
+      }
+      ${BatchPayloadNoNestingFragment}
+    `;
+
+
+
+    const deployEthTransactionProcessor = `
+      mutation deployEthTransactionProcessor (
+        $where: EthTransactionWhereUniqueInput!
+        $data: EthTransactionDeployInput!
+      ){
+        response: deployEthTransactionProcessor (
+          data: $data
+          where: $where
+        ){
+          success
+          message
+          errors{
+            key
+            message
+          }
+          data{
+            ...ethTransaction
+          }
+        }
+      }
+
+      ${ethTransactionFragment}
+      `;
+
+
+    return {
+      ethTransactionsConnection,
+      ethTransactions,
+      ethTransaction,
+      createEthTransactionProcessor,
+      updateEthTransactionProcessor,
+      deleteEthTransaction,
+      deleteManyEthTransactions,
+      deployEthTransactionProcessor,
+    }
   }
 
 }

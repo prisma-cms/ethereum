@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Context from "@prisma-cms/context";
 
 class PageLayout extends Component {
 
@@ -12,9 +13,9 @@ class PageLayout extends Component {
   static defaultProps = {
   }
 
-  static contextTypes = {
-    uri: PropTypes.object.isRequired,
-  }
+  static contextType = Context;
+
+  state = {}
 
 
   getPaginationData(){

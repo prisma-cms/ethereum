@@ -19,11 +19,7 @@ import DoneAllIcon from "material-ui-icons/DoneAll";
 import moment from "moment";
 
 
-import gql from 'graphql-tag';
-
-import {
-  createEthTransactionProcessor,
-} from "../../../Transactions/query";
+import gql from 'graphql-tag'; 
 
 import Prism from "prismjs";
 
@@ -52,18 +48,6 @@ const styles = theme => {
 }
 
 class ContractSourceView extends EditableView {
-
-
-  static propTypes = {
-    ...EditableView.propTypes,
-    classes: PropTypes.object.isRequired,
-    createEthTransactionProcessorQuery: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    ...EditableView.defaultProps,
-    createEthTransactionProcessorQuery: gql(createEthTransactionProcessor),
-  };
 
 
   state = {
@@ -161,6 +145,12 @@ class ContractSourceView extends EditableView {
   async deployContractSource() {
 
     const {
+      query: {
+        createEthTransactionProcessor,
+      },
+    } = this.context;
+
+    const {
       isDeploying,
       privateKey,
       amount,
@@ -176,7 +166,6 @@ class ContractSourceView extends EditableView {
 
 
     const {
-      createEthTransactionProcessorQuery,
       data: {
         refetch,
       },
@@ -189,7 +178,7 @@ class ContractSourceView extends EditableView {
 
 
     await this.mutate({
-      mutation: createEthTransactionProcessorQuery,
+      mutation: gql(createEthTransactionProcessor),
       variables: {
         // where: {
         //   id,
