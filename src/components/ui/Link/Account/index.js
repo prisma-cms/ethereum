@@ -52,4 +52,4 @@ export class AccountLink extends Component {
 }
 
 
-export default withStyles(styles)(AccountLink);
+export default withStyles(styles)(props => <AccountLink {...props}/>);

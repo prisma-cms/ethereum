@@ -6,7 +6,7 @@ import Context from "@prisma-cms/context";
 class PageLayout extends Component {
 
   static propTypes = {
-    connectors: PropTypes.array.isRequired,
+    connectors: PropTypes.array,
     View: PropTypes.func.isRequired,
   };
 

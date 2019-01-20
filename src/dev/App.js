@@ -226,4 +226,4 @@ export class DevApp extends Component {
   }
 }
 
-export default withStyles(styles)(DevApp);
+export default withStyles(styles)(props => <DevApp {...props}/>);

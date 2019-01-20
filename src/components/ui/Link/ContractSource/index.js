@@ -51,4 +51,4 @@ export class ContractSourceLink extends Component {
 }
 
 
-export default withStyles(styles)(ContractSourceLink);
+export default withStyles(styles)(props => <ContractSourceLink {...props}/>);

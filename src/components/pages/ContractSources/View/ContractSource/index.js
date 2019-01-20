@@ -641,4 +641,4 @@ class ContractSourceView extends EditableView {
 }
 
 
-export default withStyles(styles)(ContractSourceView);
+export default withStyles(styles)(props => <ContractSourceView {...props}/>);

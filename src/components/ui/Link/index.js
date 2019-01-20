@@ -49,4 +49,4 @@ export class UiLink extends Component {
 }
 
 
-export default withStyles(styles)(UiLink);
+export default withStyles(styles)(props => <UiLink {...props}/>);

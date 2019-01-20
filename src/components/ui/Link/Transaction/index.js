@@ -51,4 +51,4 @@ export class TransactionLink extends Component {
 }
 
 
-export default withStyles(styles)(TransactionLink);
+export default withStyles(styles)(props => <TransactionLink {...props}/>);

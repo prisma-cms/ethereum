@@ -31,20 +31,14 @@ const styles = theme => {
 class TransactionView extends EditableView {
 
 
-  static propTypes = {
-    ...EditableView.propTypes,
-    classes: PropTypes.object.isRequired,
-  };
+  // static propTypes = {
+  //   ...EditableView.propTypes,
+  //   classes: PropTypes.object.isRequired,
+  // };
 
-  static defaultProps = {
-    ...EditableView.defaultProps,
-  };
-
-  static contextTypes = {
-    ...EditableView.contextTypes,
-    openLoginForm: PropTypes.func.isRequired,
-    UserLink: PropTypes.func.isRequired,
-  };
+  // static defaultProps = {
+  //   ...EditableView.defaultProps,
+  // };
 
 
   state = {
@@ -284,4 +278,4 @@ class TransactionView extends EditableView {
 }
 
 
-export default withStyles(styles)(TransactionView);
+export default withStyles(styles)(props => <TransactionView {...props}/>);

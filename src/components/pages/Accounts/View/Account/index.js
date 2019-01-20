@@ -427,4 +427,4 @@ class AccountView extends EditableView {
 }
 
 
-export default withStyles(styles)(AccountView);
+export default withStyles(styles)(props => <AccountView {...props}/>);
