@@ -12,6 +12,7 @@ import App, {
   ContractSourceCreatePage,
 
   AccountPage,
+  AccountsPage,
 
   TransactionsPage,
   TransactionPage,
@@ -112,7 +113,20 @@ class DevRenderer extends PrismaCmsRenderer {
       },
       {
         exact: true,
-        path: "/eth-contract-sources-accounts/:contractSourceId",
+        path: "/eth-accounts",
+        // component: AccountsPage,
+        render: props => <AccountsPage
+          {...props}
+          where={{
+            type: "Contract",
+          }}
+          first={10}
+          orderBy="createdAt_DESC"
+        />
+      },
+      {
+        exact: true,
+        path: "/eth-accounts/:contractSourceId",
         component: AccountPage,
       },
       {
@@ -181,6 +195,17 @@ class DevRenderer extends PrismaCmsRenderer {
             className={classes.menuItem}
           >
             Create ContractSource
+          </Link>
+        </Grid>
+
+        <Grid
+          item
+        >
+          <Link
+            to="/eth-accounts"
+            className={classes.menuItem}
+          >
+            Accounts
           </Link>
         </Grid>
 

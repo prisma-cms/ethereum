@@ -25,14 +25,30 @@ import {
 import gql from 'graphql-tag';
 
 import {
-  deployEthContractSourceProcessor,
-} from "../../query";
+  createEthTransactionProcessor,
+} from "../../../Transactions/query";
+
+import Prism from "prismjs";
+
+import "prismjs/solidity";
+
+import MonacoEditor from 'react-monaco-editor';
+
+import * as solidity from "monaco-editor/min/vs/basic-languages/solidity/solidity.js";
+
+import NumberField from "react-number-format";
+
+// console.log("solidity", solidity);
+
 
 const styles = theme => {
 
   return {
 
     root: {
+    },
+    codeWrapper: {
+      whiteSpace: "pre-wrap",
     },
   }
 
@@ -44,12 +60,12 @@ class ContractSourceView extends EditableView {
   static propTypes = {
     ...EditableView.propTypes,
     classes: PropTypes.object.isRequired,
-    deployEthContractSourceProcessorQuery: PropTypes.object.isRequired,
+    createEthTransactionProcessorQuery: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     ...EditableView.defaultProps,
-    deployEthContractSourceProcessorQuery: gql(deployEthContractSourceProcessor),
+    createEthTransactionProcessorQuery: gql(createEthTransactionProcessor),
   };
 
   static contextTypes = {
@@ -63,9 +79,11 @@ class ContractSourceView extends EditableView {
   state = {
     ...super.state,
     showPasswordField: false,
-    password: "",
+    privateKey: "",
+    amount: null,
     isDeploying: false,
   }
+
 
   canEdit() {
 
@@ -109,6 +127,37 @@ class ContractSourceView extends EditableView {
   // }
 
 
+
+
+  // onSave(result) {
+
+  //   console.log("onSave result", result);
+
+  //   // if (result) {
+
+  //   //   const {
+  //   //     data: object,
+  //   //   } = result.data && result.data.response || {}
+
+
+  //   //   const {
+  //   //     id,
+  //   //   } = object || {};
+
+  //   //   if (id) {
+
+  //   //     const {
+  //   //       history,
+  //   //     } = this.props;
+
+  //       // history.push(`/eth-accounts/${id}/`);
+  //   //   }
+
+  //   // }
+
+  // }
+
+
   getCacheKey() {
 
     const {
@@ -123,7 +172,8 @@ class ContractSourceView extends EditableView {
 
     const {
       isDeploying,
-      password,
+      privateKey,
+      amount,
     } = this.state;
 
     if (isDeploying) {
@@ -136,7 +186,10 @@ class ContractSourceView extends EditableView {
 
 
     const {
-      deployEthContractSourceProcessorQuery,
+      createEthTransactionProcessorQuery,
+      data: {
+        refetch,
+      },
     } = this.props;
 
 
@@ -146,21 +199,27 @@ class ContractSourceView extends EditableView {
 
 
     await this.mutate({
-      mutation: deployEthContractSourceProcessorQuery,
+      mutation: createEthTransactionProcessorQuery,
       variables: {
-        where: {
-          id,
-        },
+        // where: {
+        //   id,
+        // },
         data: {
-          password,
+          type: "ContractCreate",
+          privateKey,
+          amount: amount ? parseFloat(amount) : undefined,
+          contractSourceId: id,
         },
       },
     })
-      .then(() => {
+      .then(async () => {
+
+        await refetch();
 
         this.setState({
           showPasswordField: false,
-          password: null,
+          privateKey: null,
+          amount: null,
         });
 
       })
@@ -180,7 +239,8 @@ class ContractSourceView extends EditableView {
     const {
       isDeploying,
       showPasswordField,
-      password,
+      privateKey,
+      amount,
     } = this.state;
 
     let buttons = super.getButtons() || [];
@@ -194,7 +254,7 @@ class ContractSourceView extends EditableView {
     if (canEdit && id) {
 
       const {
-        deployEthContractSourceProcessorQuery,
+        createEthTransactionProcessorQuery,
       } = this.props;
 
 
@@ -202,36 +262,56 @@ class ContractSourceView extends EditableView {
 
         // buttons.push(<TextField
         //   key="deployPassword"
-        //   name="password"
+        //   name="privateKey"
         //   label="Пароль"
-        //   value={password || ""}
+        //   value={privateKey || ""}
         //   onChange={event => {
         //     const {
-        //       value: password,
+        //       value: privateKey,
         //     } = event.target;
 
         //     this.setState({
-        //       password,
+        //       privateKey,
         //     });
         //   }}
         // />);
 
         buttons.push(this.getTextField({
-          name: "password",
-          label: "Пароль",
+          Editor: NumberField,
+          customInput: TextField,
+          name: "amount",
+          label: "Eth",
           fullWidth: false,
-          value: password || "",
-          helperText: "PK от вашего этериум-кошелька",
+          value: amount || "",
+          helperText: "Отправляемая сумма в Eth",
           onChange: event => {
             const {
-              value: password,
+              value: amount,
             } = event.target;
 
             this.setState({
-              password,
+              amount,
             });
           }
         }));
+
+        buttons.push(this.getTextField({
+          name: "privateKey",
+          label: "Пароль",
+          fullWidth: false,
+          value: privateKey || "",
+          helperText: "PK от вашего этериум-кошелька",
+          onChange: event => {
+            const {
+              value: privateKey,
+            } = event.target;
+
+            this.setState({
+              privateKey,
+            });
+          }
+        }));
+
       }
 
       if (isDeploying) {
@@ -241,7 +321,7 @@ class ContractSourceView extends EditableView {
         />);
 
       }
-      else if (deployEthContractSourceProcessorQuery) {
+      else if (createEthTransactionProcessorQuery) {
         buttons.push(<IconButton
           key="deploy"
           onClick={event => {
@@ -264,6 +344,34 @@ class ContractSourceView extends EditableView {
     }
 
     return buttons;
+  }
+
+
+  renderSource() {
+
+    const {
+      source
+    } = this.getObjectWithMutations();
+
+    const {
+      classes,
+    } = this.props;
+
+
+    return <Fragment>
+      <Typography
+        color="textSecondary"
+      >
+        Код контракта
+      </Typography>
+
+      <div
+        className={classes.codeWrapper}
+        dangerouslySetInnerHTML={{
+          __html: Prism.highlight(source || "", Prism.languages.solidity, "solidity"),
+        }}
+      />
+    </Fragment>
   }
 
 
@@ -330,28 +438,15 @@ class ContractSourceView extends EditableView {
           spacing={16}
         >
 
-          {/* {source ?
+          {source ?
             <Grid
               item
               xs={12}
               md
             >
-              <Typography
-                color="textSecondary"
-              >
-                Код контракта
-              </Typography>
-              <AceEditor
-                // mode="java"
-                mode="solidity"
-                theme="monokai"
-                name="source"
-                value={source}
-                readOnly={true}
-                editorProps={{ $blockScrolling: true }}
-              />
+              {this.renderSource()}
             </Grid> : null
-          } */}
+          }
 
           {Accounts && Accounts.length ?
 
@@ -464,31 +559,57 @@ class ContractSourceView extends EditableView {
         })}
       </Grid>
 
-      {/* <Grid
+
+      <Grid
         item
         xs={12}
       >
-        <Typography
-          color="textSecondary"
-        >
-          Исходный код контракта
-        </Typography>
+        {/* {this.renderSource()} */}
+        <MonacoEditor
+          width="100%"
+          height="600"
+          language="solidity"
+          theme="vs-light"
+          // theme="vs-dark"
+          value={source || ""}
+          options={{
+            selectOnLineNumbers: true,
+          }}
+          onChange={(source, e) => {
+            this.updateObject({
+              source,
+            });
+          }}
+          editorDidMount={(editor, monaco) => {
 
-        {this.getTextField({
-          name: "source",
-          Editor: AceEditor,
-          mode: "solidity",
-          theme: "monokai",
-          readOnly: false,
-          value: source || "",
-          onChange: source => this.updateObject({
-            source,
-          }),
-          readOnly: false,
-        })}
+            monaco.editor.getModels().map(model => {
 
+              model.updateOptions({
+                tabSize: 2,
+              });
 
-      </Grid> */}
+            });
+
+          }}
+          editorWillMount={monaco => {
+
+            // console.log("editorWillMount", monaco);
+
+            const {
+              conf,
+              language,
+            } = solidity;
+
+            monaco.languages.register({
+              id: "solidity",
+            });
+
+            // Register a tokens provider for the language
+            monaco.languages.setMonarchTokensProvider('solidity', language);
+
+          }}
+        />
+      </Grid>
 
 
     </Grid>;

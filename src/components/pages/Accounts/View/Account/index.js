@@ -22,6 +22,7 @@ import {
   Grid,
 } from "../../../../ui"
 
+import { Link } from "react-router-dom";
 
 const styles = theme => {
 
@@ -76,7 +77,7 @@ class AccountView extends EditableView {
     // return !id || (createdById && createdById === currentUserId) || sudo === true;
 
     return false;
-    
+
   }
 
 
@@ -159,6 +160,8 @@ class AccountView extends EditableView {
       id: accountId,
       description,
       source,
+      address,
+      balance,
       Accounts,
     } = object;
 
@@ -171,6 +174,21 @@ class AccountView extends EditableView {
       container
       spacing={8}
     >
+
+      {address ?
+        <Grid
+          item
+          xs={12}
+        >
+          <a
+            href={`https://etherscan.io/address/${address}`}
+            target="_blank"
+            rel="nofollow"
+          >
+            {address}
+          </a>
+        </Grid> : null
+      }
 
       {description ?
         <Grid
@@ -187,6 +205,24 @@ class AccountView extends EditableView {
           />
         </Grid> : null
       }
+
+      <Grid
+        item
+        xs={12}
+      >
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                Баланс Eth
+              </th>
+              <td>
+                {balance}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Grid>
 
       <Grid
         item
@@ -242,7 +278,7 @@ class AccountView extends EditableView {
                   CreatedBy,
                 } = n;
 
-                if(!address){
+                if (!address) {
                   return address;
                 }
 
@@ -372,7 +408,7 @@ class AccountView extends EditableView {
 
   render() {
 
-    if(typeof window === "undefined"){
+    if (typeof window === "undefined") {
       return null;
     }
 

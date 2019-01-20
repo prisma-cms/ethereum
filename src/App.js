@@ -7,6 +7,7 @@ import ContractSourcesPage from "./components/pages/ContractSources";
 import ContractSourcePage from "./components/pages/ContractSources/ContractSource";
 import ContractSourceCreatePage from "./components/pages/ContractSources/ContractSource/Create";
 
+import AccountsPage from "./components/pages/Accounts";
 import AccountPage from "./components/pages/Accounts/Account";
 
 import TransactionsPage from "./components/pages/Transactions";
@@ -22,6 +23,7 @@ export {
   ContractSourcePage,
   ContractSourceCreatePage,
 
+  AccountsPage,
   AccountPage,
 
   TransactionsPage,

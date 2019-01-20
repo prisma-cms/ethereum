@@ -33,7 +33,7 @@ export class AccountLink extends Component {
     } = object;
 
 
-    if ((!name || !address) || !id) {
+    if ((!name && !address) || !id) {
       return null;
     }
 

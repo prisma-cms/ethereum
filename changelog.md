@@ -1,3 +1,8 @@
+1.3.0
+=================================
+- Accounts pages
+- ContractSources pages
+
 1.2.1
 =================================
 - Remove React-ace
