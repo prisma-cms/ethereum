@@ -3,23 +3,24 @@ import PropTypes from 'prop-types';
 
 import View from "../../layout/View";
 
-import {
-  Grid,
-  AccountLink,
-} from "../../../ui";
-
 import Account from "./Account";
 import { Paper } from 'material-ui';
 
 class AccountsView extends View {
 
   static propTypes = {
+    ...View.propTypes,
     updateEthAccountProcessor: PropTypes.func.isRequired,
   };
 
 
   render() {
 
+
+    const {
+      Grid,
+      AccountLink,
+    } = this.context;
 
     const {
       data: {

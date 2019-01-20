@@ -3,23 +3,24 @@ import PropTypes from 'prop-types';
 
 import View from "../../layout/View";
 
-import {
-  Grid,
-  ContractSourceLink,
-} from "../../../ui";
-
 import ContractSource from "./ContractSource";
 import { Paper } from 'material-ui';
 
 class ContractSourcesView extends View {
 
   static propTypes = {
+    ...View.propTypes,
     updateEthContractSourceProcessor: PropTypes.func.isRequired,
   };
 
 
   render() {
 
+
+    const {
+      Grid,
+      ContractSourceLink,
+    } = this.context;
 
     const {
       data: {

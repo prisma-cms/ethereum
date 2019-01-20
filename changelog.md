@@ -2,6 +2,7 @@
 =================================
 - Accounts pages
 - ContractSources pages
+- Upgrade boilerplate
 
 1.2.1
 =================================

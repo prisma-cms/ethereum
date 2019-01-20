@@ -58,7 +58,6 @@ export const UserFragment = `fragment User on User {
   fullname
   image
   address
-  sudo
   active
   activated
   deleted
@@ -556,7 +555,6 @@ export const UserPreviousValuesFragment = `fragment UserPreviousValues on UserPr
   fullname
   image
   address
-  sudo
   active
   activated
   deleted
@@ -666,7 +664,6 @@ export const UserNoNestingFragment = `fragment UserNoNesting on User {
   fullname
   image
   address
-  sudo
   active
   activated
   deleted
@@ -956,7 +953,6 @@ export const UserPreviousValuesNoNestingFragment = `fragment UserPreviousValuesN
   fullname
   image
   address
-  sudo
   active
   activated
   deleted
@@ -1067,7 +1063,6 @@ export const UserDeepNestingFragment = `fragment UserDeepNesting on User {
   fullname
   image
   address
-  sudo
   active
   activated
   deleted
@@ -1565,7 +1560,6 @@ export const UserPreviousValuesDeepNestingFragment = `fragment UserPreviousValue
   fullname
   image
   address
-  sudo
   active
   activated
   deleted

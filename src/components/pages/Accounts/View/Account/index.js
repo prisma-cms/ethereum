@@ -8,21 +8,12 @@ import { Typography, IconButton } from 'material-ui';
 
 import Editor from "@prisma-cms/editor";
 
-// import AceEditor from 'react-ace';
-
-import { CircularProgress } from 'material-ui/Progress';
 
 import PublishIcon from "material-ui-icons/Publish";
 import DoneIcon from "material-ui-icons/Done";
-import DoneAllIcon from "material-ui-icons/DoneAll";
 
 import moment from "moment";
 
-import {
-  Grid,
-} from "../../../../ui"
-
-import { Link } from "react-router-dom";
 
 const styles = theme => {
 
@@ -44,11 +35,6 @@ class AccountView extends EditableView {
 
   static defaultProps = {
     ...EditableView.defaultProps,
-  };
-
-  static contextTypes = {
-    ...EditableView.contextTypes,
-    openLoginForm: PropTypes.func.isRequired,
   };
 
 
@@ -143,6 +129,10 @@ class AccountView extends EditableView {
 
 
   renderDefaultView() {
+
+    const {
+      Grid,
+    } = this.context;
 
     const {
       classes,
@@ -311,6 +301,9 @@ class AccountView extends EditableView {
 
   renderEditableView() {
 
+    const {
+      Grid,
+    } = this.context;
 
     const object = this.getObjectWithMutations();
 

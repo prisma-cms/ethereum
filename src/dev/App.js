@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from "prop-types";
 
 import PrismaCmsApp from '@prisma-cms/front'
-import { Renderer as PrismaCmsRenderer } from '@prisma-cms/front'
 
-import * as queryFragments from "@prisma-cms/front/lib/schema/generated/api.fragments";
+import * as queryFragments from "../schema/generated/api.fragments";
+
+import PrismaCmsRenderer from "./Renderer";
 
 import App, {
   ContractSourcesPage,
@@ -24,14 +25,7 @@ import {
   Link,
 } from "react-router-dom";
 
-import {
-  AccountLink,
-  UserLink,
-  TransactionLink,
-} from "../components/ui";
-
 import { withStyles } from 'material-ui';
-
 
 export const styles = {
   menuItem: {
@@ -42,36 +36,6 @@ export const styles = {
 
 class DevRenderer extends PrismaCmsRenderer {
 
-
-  static propTypes = {
-    ...PrismaCmsRenderer.propTypes,
-    pure: PropTypes.bool.isRequired,
-  }
-
-  static defaultProps = {
-    ...PrismaCmsRenderer.defaultProps,
-    pure: false,
-  }
-
-
-  static childContextTypes = {
-    ...PrismaCmsRenderer.childContextTypes,
-    AccountLink: PropTypes.func,
-    UserLink: PropTypes.func,
-    TransactionLink: PropTypes.func,
-  }
-
-
-  getChildContext() {
-
-
-    return {
-      ...super.getChildContext(),
-      AccountLink,
-      UserLink,
-      TransactionLink,
-    }
-  }
 
   getRoutes() {
 
@@ -226,19 +190,6 @@ class DevRenderer extends PrismaCmsRenderer {
   }
 
 
-  render() {
-
-    const {
-      pure,
-      ...other
-    } = this.props;
-
-    return pure ? <App
-      {...other}
-    /> : super.render();
-
-  }
-
 }
 
 export class DevApp extends Component {
@@ -264,12 +215,10 @@ export class DevApp extends Component {
   render() {
 
     const {
-      queryFragments,
       ...other
     } = this.props;
 
     return <PrismaCmsApp
-      queryFragments={queryFragments}
       Renderer={DevRenderer}
       // pure={true}
       {...other}

@@ -17,8 +17,16 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { Typography } from 'material-ui';
 
+import Context from '@prisma-cms/context';
+
+import SubscriptionProvider from "./components/SubscriptionProvider";
+import ContextProvider from "./components/ContextProvider";
+
 
 export {
+  ContextProvider,
+  SubscriptionProvider,
+
   ContractSourcesPage,
   ContractSourcePage,
   ContractSourceCreatePage,
@@ -41,7 +49,10 @@ const query = gql`
   }
 `;
 
+
 class App extends Component {
+
+  static contextType = Context;
 
   static propTypes = {
     data: PropTypes.object.isRequired,

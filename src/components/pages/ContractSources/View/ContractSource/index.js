@@ -18,9 +18,6 @@ import DoneAllIcon from "material-ui-icons/DoneAll";
 
 import moment from "moment";
 
-import {
-  Grid,
-} from "../../../../ui"
 
 import gql from 'graphql-tag';
 
@@ -66,13 +63,6 @@ class ContractSourceView extends EditableView {
   static defaultProps = {
     ...EditableView.defaultProps,
     createEthTransactionProcessorQuery: gql(createEthTransactionProcessor),
-  };
-
-  static contextTypes = {
-    ...EditableView.contextTypes,
-    openLoginForm: PropTypes.func.isRequired,
-    AccountLink: PropTypes.func.isRequired,
-    UserLink: PropTypes.func.isRequired,
   };
 
 
@@ -392,6 +382,7 @@ class ContractSourceView extends EditableView {
     const {
       AccountLink,
       UserLink,
+      Grid,
     } = this.context;
 
 
@@ -507,6 +498,10 @@ class ContractSourceView extends EditableView {
 
   renderEditableView() {
 
+
+    const {
+      Grid,
+    } = this.context;
 
     const object = this.getObjectWithMutations();
 

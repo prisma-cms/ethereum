@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Pagination,
-} from "../../ui";
-
+import Context from "@prisma-cms/context";
 
 class PageView extends Component {
 
@@ -12,9 +9,7 @@ class PageView extends Component {
     data: PropTypes.object.isRequired,
   };
 
-  static contextTypes = {
-    uri: PropTypes.object.isRequired,
-  };
+  static contextType = Context;
 
 
   renderPagination() {
@@ -33,6 +28,7 @@ class PageView extends Component {
 
     const {
       uri,
+      Pagination,
     } = this.context;
 
 

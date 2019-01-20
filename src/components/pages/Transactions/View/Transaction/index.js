@@ -4,17 +4,6 @@ import PropTypes from 'prop-types';
 import EditableView from 'apollo-cms/lib/DataView/Object/Editable';
 
 import withStyles from "material-ui/styles/withStyles";
-import { Typography, IconButton, TextField } from 'material-ui';
-
-
-import { CircularProgress } from 'material-ui/Progress';
-
-
-import moment from "moment";
-
-import {
-  Grid,
-} from "../../../../ui"
 
 
 const styles = theme => {
@@ -126,6 +115,7 @@ class TransactionView extends EditableView {
 
     const {
       UserLink,
+      Grid,
     } = this.context;
 
 

@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 
 import View from "../../layout/View";
 
-import {
-  Grid,
-  TransactionLink,
-} from "../../../ui";
 
 import Transaction from "./Transaction";
 import { Paper } from 'material-ui';
@@ -14,11 +10,17 @@ import { Paper } from 'material-ui';
 class TransactionsView extends View {
 
   static propTypes = {
+    ...View.propTypes,
     updateEthTransactionProcessor: PropTypes.func.isRequired,
   };
 
 
   render() {
+
+    const {
+      Grid,
+      TransactionLink,
+    } = this.context;
 
 
     const {
