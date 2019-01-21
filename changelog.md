@@ -1,3 +1,8 @@
+1.3.4
+=================================
+- Switch off react-monaco-editor (Error on SSR)
+  - https://github.com/superRaytin/react-monaco-editor/issues/172
+
 1.3.3
 =================================
 - Fix contexts

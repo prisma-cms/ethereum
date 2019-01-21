@@ -25,9 +25,9 @@ import Prism from "prismjs";
 
 import "prismjs/solidity";
 
-import MonacoEditor from 'react-monaco-editor';
+// import MonacoEditor from 'react-monaco-editor';
 
-import * as solidity from "monaco-editor/min/vs/basic-languages/solidity/solidity.js";
+// import * as solidity from "monaco-editor/min/vs/basic-languages/solidity/solidity.js";
 
 import NumberField from "react-number-format";
 
@@ -344,12 +344,12 @@ class ContractSourceView extends EditableView {
         Код контракта
       </Typography>
 
-      <div
+      {/* <div
         className={classes.codeWrapper}
         dangerouslySetInnerHTML={{
           __html: Prism.highlight(source || "", Prism.languages.solidity, "solidity"),
         }}
-      />
+      /> */}
     </Fragment>
   }
 
@@ -549,7 +549,7 @@ class ContractSourceView extends EditableView {
         xs={12}
       >
         {/* {this.renderSource()} */}
-        <MonacoEditor
+        {/* <MonacoEditor
           width="100%"
           height="600"
           language="solidity"
@@ -592,7 +592,7 @@ class ContractSourceView extends EditableView {
             monaco.languages.setMonarchTokensProvider('solidity', language);
 
           }}
-        />
+        /> */}
       </Grid>
 
 
