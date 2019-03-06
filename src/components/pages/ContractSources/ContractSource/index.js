@@ -26,7 +26,7 @@ export const connectors = [
 
 export const createConnector = function (connectors) {
 
-  return compose(connectors.map(n => {
+  return compose.apply(this, connectors.map(n => {
     const {
       code,
       ...other

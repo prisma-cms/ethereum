@@ -1,3 +1,7 @@
+1.3.5
+=================================
+- Fix compose.apply()
+
 1.3.4
 =================================
 - Switch off react-monaco-editor (Error on SSR)
